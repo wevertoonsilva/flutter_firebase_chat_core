@@ -35,6 +35,7 @@ Future<types.Room> processRoomDocument(
   final type = doc.data()!['type'] as String;
   final userIds = doc.data()!['userIds'] as List<dynamic>;
   final userRoles = doc.data()?['userRoles'] as Map<String, dynamic>?;
+  final lastMessage = types.Message.fromJson(doc.data()?['lastMessage'] as Map<String, dynamic>);
 
   final users = await Future.wait(
     userIds.map(
@@ -67,6 +68,7 @@ Future<types.Room> processRoomDocument(
     name: name,
     type: types.getRoomTypeFromString(type),
     users: users,
+    lastMessage: lastMessage
   );
 
   return room;
